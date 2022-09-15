@@ -17,7 +17,7 @@ router.use('/search/searchPost', require('./search/searchPost'));
 
 router.use('/comment', require('./comment'));
 router.use('/reply', require('./replyAPI'));
-router.use('/memberlike/:post_sid', require('./memberlike'));
+router.use('/memberlike/:post_sid', require('./memberLike'));
 
 
 
