@@ -26,10 +26,10 @@ app.set("case sensitive routing", true);
 // cors設定
 const corsOptions = {
     credential: true,
-    origin: (origin, cb) => {
-        // console.log({ origin });
-        cb(null, true);
-    },
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
 };
 app.use(cors(corsOptions));
 
