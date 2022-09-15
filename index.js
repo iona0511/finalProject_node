@@ -131,10 +131,11 @@ app.use((req, res) => {
 });
 
 // ------------ listen -----------
-console.log({ port: process.env.EXPRESS_PORT });
-app.listen(process.env.PORT || process.env.EXPRESS_PORT, () => {
+const PORT = process.env.PORT || process.env.EXPRESS_PORT;
+
+app.listen(PORT, () => {
     console.log(
-        `Server started at http://localhost:${process.env.EXPRESS_PORT}`
+        `Server started at port:${PORT}`
     );
 });
 

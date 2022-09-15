@@ -7,8 +7,6 @@ const Joi = require("joi");
 const sqlstring = require("sqlstring");
 const _ = require("lodash");
 
-const { DB_HOST, EXPRESS_PORT } = process.env;
-
 // product------------------------------------------------------------------------
 router.get("/read_product/api", async (req, res) => {
     // 檢查jwt token是否正確
@@ -52,7 +50,7 @@ router.get("/read_product/api", async (req, res) => {
         if (result.length >= 1) {
             result.forEach(item => {
                 item.name = [item.name];
-                item.picture = `http://${DB_HOST}:${EXPRESS_PORT}/images/products/${item.category}/${item.picture}`;
+                item.picture = `images/products/${item.category}/${item.picture}`;
                 delete item.category;
             });
         }
@@ -232,7 +230,7 @@ router.get("/read_food/api", async (req, res) => {
                 item.ice = iceTable[item.ice];
                 item.sugar = sugarTable[item.sugar];
                 item.name = [item.name, item.ice, item.sugar];
-                item.picture = `http://${DB_HOST}:${EXPRESS_PORT}/images/food/${item.picture}`;
+                item.picture = `images/food/${item.picture}`;
                 item.stocks = 9999;
                 item.time = moment.parseZone(item.time).utcOffset(8).format("YYYY/MM/DD HH:mm:ss");
                 delete item.ice;
