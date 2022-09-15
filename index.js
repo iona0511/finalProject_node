@@ -24,14 +24,14 @@ app.set("case sensitive routing", true);
 
 // ---------- Top-level middleware -----------------------------
 // cors設定
-const corsOptions = {
-    credential: true,
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: false,
-    optionsSuccessStatus: 204
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//     credential: true,
+//     origin: "*",
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     preflightContinue: false,
+//     optionsSuccessStatus: 204
+// };
+app.use(cors());
 
 // session 的 secret是加密用的字串, 可以直接寫或是從別的地方引(像是env)
 app.use(
