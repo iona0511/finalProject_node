@@ -106,7 +106,7 @@ router.put("/read_product/api", async (req, res) => {
         variables.push(item.quantity);
         variables.push(item.id);
         variables.push(sid);
-    })
+    });
     const sqlsWithVariable = sqlstring.format(sqls, variables);
     try {
         const [result] = await db.query(sqlsWithVariable);
@@ -237,7 +237,7 @@ router.get("/read_food/api", async (req, res) => {
                 item.time = moment.parseZone(item.time).utcOffset(8).format("YYYY/MM/DD HH:mm:ss");
                 delete item.ice;
                 delete item.sugar;
-            })
+            });
         }
         res.json(result);
         return;
@@ -289,7 +289,7 @@ router.put("/read_food/api", async (req, res) => {
         variables.push(item.quantity);
         variables.push(item.id);
         variables.push(sid);
-    })
+    });
     const sqlsWithVariable = sqlstring.format(sqls, variables);
     try {
         const [result] = await db.query(sqlsWithVariable);
@@ -495,7 +495,7 @@ router.post("/check/api", async (req, res) => {
     `;
     let insertOrderId;
     try {
-        const [[{ maxOrder }]] = await db.query(newestOrdersql)
+        const [[{ maxOrder }]] = await db.query(newestOrdersql);
         insertOrderId = +maxOrder + 1;
     } catch (error) {
         console.log(error);
@@ -541,7 +541,7 @@ router.post("/check/api", async (req, res) => {
     const { name, email, phone, payWay, card, deliverWay, address, couponId, finalPrice, discount, nowList } = req.body;
     const coupon = couponId === -1 ? null : couponId;
     const list = nowList === "productList" ? 0 : 1;
-    const sqlFormat = sqlstring.format(sql, [name, email, phone, payWay, card, deliverWay, address, sid, coupon, finalPrice, insertOrderId, discount, "配送中", list])
+    const sqlFormat = sqlstring.format(sql, [name, email, phone, payWay, card, deliverWay, address, sid, coupon, finalPrice, insertOrderId, discount, "配送中", list]);
     const orderOutput = { insertId: -1, success: false, time: "" };
     try {
         const [result] = await db.query(sqlFormat);
@@ -594,7 +594,7 @@ router.post("/check/api", async (req, res) => {
             const sqlCouponReceive = `
                 UPDATE coupon_receive SET status = 1 WHERE sid = ?;
             `;
-            const sqlCouponReceiveFormat = sqlstring.format(sqlCouponReceive, [couponId])
+            const sqlCouponReceiveFormat = sqlstring.format(sqlCouponReceive, [couponId]);
             queryArray.push(db.query(sqlCouponReceiveFormat));
 
             // insert coupon_logs
@@ -605,7 +605,7 @@ router.post("/check/api", async (req, res) => {
                     ?,?,?,?
                 )
             `;
-            const sqlCouponLogsFormat = sqlstring.format(sqlCouponLogs, [sid, couponId, orderOutput.insertId, orderOutput.time])
+            const sqlCouponLogsFormat = sqlstring.format(sqlCouponLogs, [sid, couponId, orderOutput.insertId, orderOutput.time]);
             queryArray.push(db.query(sqlCouponLogsFormat));
         }
 
@@ -673,7 +673,7 @@ router.get("/detail/api", async (req, res) => {
     const sqlLastInsert = `
         SELECT order_id AS orderNumber, order_price AS price, order_list AS list FROM \`order\` WHERE order_sid = ?;
     `;
-    const sqlLastInsertFormat = sqlstring.format(sqlLastInsert, [insertId])
+    const sqlLastInsertFormat = sqlstring.format(sqlLastInsert, [insertId]);
     try {
         const [[result]] = await db.query(sqlLastInsertFormat);
         output.orderNumber = result.orderNumber;
@@ -741,7 +741,7 @@ router.get("/detail/api", async (req, res) => {
                     item.name = item.name + (item.ice === "" ? "" : `(${item.ice})`) + (item.sugar === "" ? "" : `(${item.sugar})`);
                     delete item.ice;
                     delete item.sugar;
-                })
+                });
             }
             output.rawData = result;
             // console.log(result);
@@ -846,7 +846,7 @@ router.get("/cart_count/api", async (req, res) => {
         const foodResult = db.query(sqlFood, [sid]);
 
         const [[[{ productCount }]], [[{ foodCount }]]] = await Promise.all([productResult, foodResult]);
-        const cartTotalCount = productCount + foodCount
+        const cartTotalCount = productCount + foodCount;
         res.json({ cartTotalCount });
         return;
     } catch (error) {
@@ -866,7 +866,7 @@ router.get("/cart_count/api", async (req, res) => {
 
 // 測試連線用 記得刪除
 router.get("/order/api", async (req, res) => {
-    const sql = "SELECT * FROM `order` WHERE 1"
+    const sql = "SELECT * FROM `order` WHERE 1";
     const [result] = await db.query(sql);
     res.json(result);
 });
